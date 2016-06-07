@@ -5,7 +5,9 @@ This sample demonstrates how to use Dynamic Web TWAIN's OCR Basic add-on to do O
 Dynamsoft Team
 2016-06-07
 
-# In order to test the demo, you will need to download the complete code <a href="http://www.dynamsoft.com/Samples/DWT/Dynamsoft-WebTwain-OCR-Basic-for-Client.zip" target="_blank">here</a>.
+# Download Source Code
+
+In order to test the demo, you will need to download the complete code <a href="http://www.dynamsoft.com/Samples/DWT/Dynamsoft-WebTwain-OCR-Basic-for-Client.zip" target="_blank">here</a>.
 
 # How to use the demo
 
