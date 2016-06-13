@@ -3,7 +3,8 @@ Dynamsoft.WebTwainEnv.RegisterEvent('OnWebTwainReady', Dynamsoft_OnReady); // Re
 
 var DWObject, CurrentPath;
 var _iLeft, _iTop, _iRight, _iBottom, bMultipage;
-
+var CurrentPathName = unescape(location.pathname);
+CurrentPath = CurrentPathName.substring(0, CurrentPathName.lastIndexOf("/") + 1);
 
 var OCRLanguages = [
 		{ desc: "English", val: "eng" }
@@ -12,10 +13,51 @@ var OCRLanguages = [
 var OCROutputFormat = [
 		{ desc: "TXT", val: EnumDWT_OCROutputFormat.OCROF_TEXT },
 		{ desc: "Text PDF", val: EnumDWT_OCROutputFormat.OCROF_PDFPLAINTEXT },
-		{ desc: "Image-over-text PDF", val: EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT },
-		{ desc: "Text PDFX", val: EnumDWT_OCROutputFormat.OCROF_PDFPLAINTEXT_PDFX },
-		{ desc: "Image-over-text PDFX", val: EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT_PDFX }
+		{ desc: "Image-over-text PDF", val: EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT }
 ];
+
+function downloadPDFR() {
+	Dynamsoft__OnclickCloseInstallEx();
+	DWObject.Addon.PDF.Download(
+		CurrentPath + '/Resources/addon/Pdf.zip',
+		function() {/*console.log('PDF dll is installed');*/
+			downloadOCRBasic_btn();
+		},
+		function(errorCode, errorString) {
+			console.log(errorString);
+		}
+	);
+}		
+function downloadOCRBasic_btn() {
+	var localOCRVersion = DWObject._innerFun('GetAddOnVersion', '["ocr"]');
+	if (localOCRVersion.substring(0,localOCRVersion.indexOf('|')) != Dynamsoft.OCRVersion) {
+		var ObjString = [];
+		ObjString.push('<div class="ds-demo-padding">');
+		ObjString.push('The <strong>OCR Module</strong> is not installed on this PC<br />Please click the button below to get it installed');
+		ObjString.push('<p class="ds-demo-center"><input type="button" value="Install OCR" onclick="downloadOCRBasic();" class="ds-demo-blue ds-demo-btn-large ds-demo-border-0 ds-demo-margin" /><hr></p>');
+		ObjString.push('<i><strong>The installation is a one-time process</strong> <br />It might take some time depending on your network.</i>');
+		ObjString.push('</div>');
+		Dynamsoft.WebTwainEnv.ShowDialog(400,310, ObjString.join(''));
+	}
+}
+function downloadOCRBasic() {
+	Dynamsoft__OnclickCloseInstallEx();
+	DWObject.Addon.OCR.DownloadLangData(
+		CurrentPath +"Resources/addon/English.zip", 
+		function(){
+			DWObject.Addon.OCR.Download(
+				CurrentPath + "/Resources/addon/OCR.zip", 
+				function() {/*console.log('OCR dll is installed');*/},
+				function(errorCode, errorString) {
+					console.log(errorString);
+				}
+			);
+		},
+		function(errorCode, errorString) {
+			console.log(errorString);
+		}
+	);
+}
 
 function Dynamsoft_OnReady() {
 	DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer'); // Get the Dynamic Web TWAIN object that is embeded in the div with id 'dwtcontrolContainer'
@@ -34,20 +76,24 @@ function Dynamsoft_OnReady() {
 			document.getElementById("ddlOCROutputFormat").options.add(new Option(OCROutputFormat[i].desc, i));
 		
 		DWObject.RegisterEvent("OnTopImageInTheViewChanged", Dynamsoft_OnTopImageInTheViewChanged);
+
 		/*
-		* Make sure the PDF Rasterizer add-on is already installed, please note that the file Pdf.zip is already part of the sample
+		* Make sure the PDF Rasterizer and OCR add-on are already installedsample
 		*/
-		var CurrentPathName = unescape(location.pathname),PDFDLLDownloadURL;
-		CurrentPath = CurrentPathName.substring(0, CurrentPathName.lastIndexOf("/") + 1);
-		if(!Dynamsoft.Lib.env.bMac) {			
-			PDFDLLDownloadURL = CurrentPath + '/Resources/addon/Pdf.zip';
-			DWObject.Addon.PDF.Download(
-				PDFDLLDownloadURL,
-				function() {/*console.log('PDF dll is installed');*/},
-				function(errorCode, errorString) {
-					console.log(errorString);
-				}
-			);
+		if(!Dynamsoft.Lib.env.bMac) {	
+			var localPDFRVersion = DWObject._innerFun('GetAddOnVersion', '["pdf"]');	
+			if (localPDFRVersion != Dynamsoft.PdfVersion) {
+				var ObjString = [];
+				ObjString.push('<div class="ds-demo-padding" id="pdfr-install-dlg">');
+				ObjString.push('The <strong>PDF Rasterizer</strong> is not installed on this PC<br />Please click the button below to get it installed');
+				ObjString.push('<p class="ds-demo-center"><input type="button" value="Install PDF Rasterizer" onclick="downloadPDFR();" class="ds-demo-blue ds-demo-btn-large ds-demo-border-0 ds-demo-margin ds-font-size-18" /><hr></p>');
+				ObjString.push('<i><strong>The installation is a one-time process</strong> <br />It might take some time depending on your network.</i>');
+				ObjString.push('</div>');
+				Dynamsoft.WebTwainEnv.ShowDialog(400,310, ObjString.join(''));
+			}
+			else {
+				downloadOCRBasic_btn();
+			}
 		}
 	}
 }
@@ -221,39 +267,22 @@ function DoOCRInner() {
 			alert("Please scan or load an image first.");
 			return;
 		}
-		var OnSuccess = function() {
-			DWObject.Addon.OCR.SetLanguage(OCRLanguages[document.getElementById("ddlLanguages").selectedIndex].val);
-			DWObject.Addon.OCR.SetOutputFormat(OCROutputFormat[document.getElementById("ddlOCROutputFormat").selectedIndex].val);
-			//Get ocr result.
-			if (_iLeft != 0 || _iTop != 0 || _iRight != 0 || _iBottom != 0) {
-				DWObject.Addon.OCR.RecognizeRect(DWObject.CurrentImageIndexInBuffer, _iLeft, _iTop, _iRight, _iBottom, GetRectOCRProInfo, GetErrorInfo);
+		DWObject.Addon.OCR.SetLanguage(OCRLanguages[document.getElementById("ddlLanguages").selectedIndex].val);
+		DWObject.Addon.OCR.SetOutputFormat(OCROutputFormat[document.getElementById("ddlOCROutputFormat").selectedIndex].val);
+		//Get ocr result.
+		if (_iLeft != 0 || _iTop != 0 || _iRight != 0 || _iBottom != 0) {
+			DWObject.Addon.OCR.RecognizeRect(DWObject.CurrentImageIndexInBuffer, _iLeft, _iTop, _iRight, _iBottom, GetRectOCRProInfo, GetErrorInfo);
+		}
+		else if(bMultipage) {
+			var nCount = DWObject.HowManyImagesInBuffer;
+			DWObject.SelectedImagesCount = nCount;
+			for(var i = 0; i < nCount;i++) {
+				 DWObject.SetSelectedImageIndex(i,i);
 			}
-			else if(bMultipage) {
-				var nCount = DWObject.HowManyImagesInBuffer;
-				DWObject.SelectedImagesCount = nCount;
-				for(var i = 0; i < nCount;i++) {
-					 DWObject.SetSelectedImageIndex(i,i);
-				}
-				DWObject.Addon.OCR.RecognizeSelectedImages(OnOCRSelectedImagesSuccess, GetErrorInfo);
-			}
-			else {
-				DWObject.Addon.OCR.Recognize(DWObject.CurrentImageIndexInBuffer, GetOCRProInfo, GetErrorInfo);
-			}
-		};
-
-		var OnFailure = function(errorCode, errorString) {
-			alert("onfailure!");
-
-		};
-
-		var CurrentPathName = unescape(location.pathname);
-		CurrentPath = CurrentPathName.substring(0, CurrentPathName.lastIndexOf("/") + 1);
-		DWObject.Addon.OCR.DownloadLangData(
-			CurrentPath +"Resources/addon/English.zip", 
-			function(){
-				DWObject.Addon.OCR.Download(CurrentPath + "/Resources/addon/OCR.zip", OnSuccess, OnFailure);
-			}, 
-			OnFailure
-		);
+			DWObject.Addon.OCR.RecognizeSelectedImages(OnOCRSelectedImagesSuccess, GetErrorInfo);
+		}
+		else {
+			DWObject.Addon.OCR.Recognize(DWObject.CurrentImageIndexInBuffer, GetOCRProInfo, GetErrorInfo);
+		}
 	}
 }

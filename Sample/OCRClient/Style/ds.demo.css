@@ -98,6 +98,8 @@ input[type=checkbox].ds-demo-check:disabled+.ds-demo-validate,input[type=radio].
 .ds-demo-selected { background-color: #ddd!important;}
 .ds-demo-div-src-hoverable:hover {background-color: #ccc!important;}
 /* fonts */
+.ds-font-size-18 {font-size:18px}
+.ds-font-size-16 {font-size:16px}
 .ds-font-size-14 {font-size:14px}
 .ds-font-size-10 {font-size:10px}
 
