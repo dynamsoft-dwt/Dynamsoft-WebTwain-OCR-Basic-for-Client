@@ -31,6 +31,7 @@ table,th,td{border:none}
 .ds-demo-txt { border:1px #eee solid; position: relative; width: 32px; height: 35px; margin: 0 16px;}
 .ds-demo-check { width: 15px; height: 15px; vertical-align: sub; margin-right: 5px; }
 .ds-demo-btn { height:38px!important; border:1px #999 solid;display:inline-block;outline:0;padding:6px 16px;vertical-align:middle;overflow:hidden;text-decoration:none!important;color:#000;background-color:#fff;text-align:center;cursor:pointer;white-space:nowrap; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+.ds-demo-width-135 {width:135px!important;}
 .ds-demo-width-168 {width:168px!important;}
 .ds-demo-width-92 {width:92px!important;}
 .ds-demo-width-44 {width:44px!important;}
@@ -51,10 +52,16 @@ input[type=checkbox].ds-demo-check:disabled+.ds-demo-validate,input[type=radio].
 .ds-demo-table td,.ds-demo-table th {padding:6px 8px;display:table-cell;text-align:left;vertical-align:top; border-top:1px #999 solid;}
 .ds-demo-table th:first-child,.ds-demo-table td:first-child {padding-left:16px}
 .ds-demo-hoverable tbody tr:hover,.ds-demo-ul.ds-demo-hoverable li:hover{background-color:#ccc}
+.ds-demo-badge{background-color:#000;color:#fff;display:inline-block;padding-left:8px;padding-right:8px;text-align:center}
+.ds-demo-badge{border-radius:50%}
+.ds-demo-cursor-pointer {cursor:pointer!important;}
+.ds-demo-cursor-help {cursor:help!important;}
 /* Utilities */
 .ds-demo-hide{display:none!important}.ds-demo-show-block,.ds-demo-show{display:block!important}.ds-demo-show-inline-block{display:inline-block!important}
+.ds-demo-box-shadow {box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)}
 .ds-demo-margin-small { margin: 8px!important; }
 .ds-demo-margin { margin: 16px!important; }
+.ds-demo-margin-zero { margin: 0!important; }
 .ds-demo-margin-large { margin: 32px!important; }
 .ds-demo-margin-left { margin-left: 16px!important; }
 .ds-demo-margin-left-large { margin-left: 32px!important; }
