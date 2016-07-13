@@ -68,7 +68,10 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="OCRBasicClientSide.aspx" />
+    <Content Include="ocrbasicclientside.js" />
     <Content Include="Resources\addon\dynamsoft.webtwain.addon.ocr.js" />
+    <Content Include="Resources\addon\dynamsoft.webtwain.addon.pdf.js" />
+    <Content Include="Resources\DynamicWebTWAINHTML5Edition.exe" />
     <Content Include="Resources\dynamsoft.webtwain.config.js" />
     <Content Include="Resources\dynamsoft.webtwain.initiate.js" />
     <Content Include="Resources\dynamsoft.webtwain.install.js" />
@@ -116,8 +119,13 @@
     <Content Include="Resources\reference\loading.gif" />
     <Content Include="Resources\reference\logo.gif" />
     <Content Include="Style\ds.demo.css" />
+    <Content Include="Style\Images\download-icon.png" />
+    <Content Include="Style\Images\icon-DWT.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\addon\OCR.zip" />
+    <Content Include="Resources\addon\Pdf.zip" />
+    <Content Include="Resources\addon\English.zip" />
     <None Include="Resources\reference\LICENSE" />
   </ItemGroup>
   <ItemGroup>

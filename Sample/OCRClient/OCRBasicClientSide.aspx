@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="Style/ds.demo.css">
 </head>
 <body class="ds-demo-main">
+    <div class="ds-demo-block ds-demo-leftbar ds-demo-pale-blue ds-demo-padding ds-demo-border-blue ds-demo-center">
+		<span onclick="this.parentElement.style.display='none'" class="ds-demo-closebtn">&times;</span>
+		<p>This demo only works on modern browsers on Windows like Chrome 27+ &amp; Firefox 27+ and Edge & IE 11</p>
+	</div>
     <div class="ds-demo-head">
         <span onclick="this.parentElement.style.display='none'" class="ds-demo-closebtn ds-demo-margin-right" style="margin-top: -50px">^</span>
         <div class="ds-demo-container">
@@ -87,7 +91,7 @@
                     <p>
                         Copyright &copy;
 						<script>document.write((new Date()).getFullYear());</script>
-                        <strong>Dynamsoft TST Team</strong>  &vert; 
+                        <strong>Dynamsoft Team</strong>  &vert; 
 						support [at] dynamsoft.com &vert; 1-604-605-5491 &vert; Vancouver, BC, Canada
                     </p>
                 </div>
