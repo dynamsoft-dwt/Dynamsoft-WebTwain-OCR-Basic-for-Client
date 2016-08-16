@@ -139,6 +139,10 @@ function LoadImages() {
 		DWObject.IfShowFileDialog = false;
 		function ds_load_pdfa(bSave, filesCount, index, path, filename){
 			nCount = filesCount;
+			if(nCount == -1) {
+				console.log('user cancelled');
+				Dynamsoft.Lib.detect.hideMask();
+			}
 			var filePath = path + "\\" +  filename;
 			if((filename.substr(filename.lastIndexOf('.') + 1)).toLowerCase() == 'pdf'){
 				DWObject.Addon.PDF.SetResolution(200);   
