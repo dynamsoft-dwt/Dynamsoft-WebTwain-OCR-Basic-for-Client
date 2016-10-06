@@ -19,7 +19,7 @@ var OCROutputFormat = [
 function downloadPDFR() {
 	Dynamsoft__OnclickCloseInstallEx();
 	DWObject.Addon.PDF.Download(
-		CurrentPath + '/Resources/addon/Pdf.zip',
+		location.protocol + '//' + location.hostname + ':' + location.port + CurrentPath + 'Resources/addon/Pdf.zip',
 		function() {/*console.log('PDF dll is installed');*/
 			downloadOCRBasic_btn();
 		},
@@ -29,7 +29,14 @@ function downloadPDFR() {
 	);
 }		
 function downloadOCRBasic_btn() {
-	var localOCRVersion = DWObject._innerFun('GetAddOnVersion', '["ocr"]');
+	var localOCRVersion = '';
+	if(Dynamsoft.Lib.product.bChromeEdition){
+		localOCRVersion = DWObject._innerFun('GetAddOnVersion', '["ocr"]');
+	}
+	else {
+		localOCRVersion = DWObject.getSWebTwain().GetAddonVersion("ocr");
+	}
+	
 	if (localOCRVersion.substring(0,localOCRVersion.indexOf('|')) != Dynamsoft.OCRVersion) {
 		var ObjString = [];
 		ObjString.push('<div class="p15">');
@@ -43,10 +50,10 @@ function downloadOCRBasic_btn() {
 function downloadOCRBasic() {
 	Dynamsoft__OnclickCloseInstallEx();
 	DWObject.Addon.OCR.DownloadLangData(
-		CurrentPath +"Resources/addon/English.zip", 
+		location.protocol + '//' + location.hostname + ':' + location.port + CurrentPath +"Resources/addon/English.zip", 
 		function(){
 			DWObject.Addon.OCR.Download(
-				CurrentPath + "/Resources/addon/OCR.zip", 
+				location.protocol + '//' + location.hostname + ':' + location.port + CurrentPath + "Resources/addon/OCR.zip", 
 				function() {/*console.log('OCR dll is installed');*/},
 				function(errorCode, errorString) {
 					console.log(errorString);
@@ -81,7 +88,15 @@ function Dynamsoft_OnReady() {
 		* Make sure the PDF Rasterizer and OCR add-on are already installedsample
 		*/
 		if(!Dynamsoft.Lib.env.bMac) {	
-			var localPDFRVersion = DWObject._innerFun('GetAddOnVersion', '["pdf"]');	
+			var localPDFRVersion = '';
+			if(Dynamsoft.Lib.product.bChromeEdition){
+				localPDFRVersion = DWObject._innerFun('GetAddOnVersion', '["pdf"]');
+			}
+            else {
+                localPDFRVersion = DWObject.getSWebTwain().GetAddonVersion("pdf");
+				alert("Please note that your current browser doesn't support the OCR add-on, please use modern browsers like Chrome, Firefox or IE 11.");
+				return;
+            }
 			if (localPDFRVersion != Dynamsoft.PdfVersion) {
 				var ObjString = [];
 				ObjString.push('<div class="p15" id="pdfr-install-dlg">');
@@ -153,6 +168,7 @@ function LoadImages() {
 					console.log('successful');},
 				function (errorCode, errorString) {
 					alert(errorString);
+					Dynamsoft.Lib.detect.hideMask();
 				});
 			DWObject.UnregisterEvent('OnGetFilePath', ds_load_pdfa);
 		}
