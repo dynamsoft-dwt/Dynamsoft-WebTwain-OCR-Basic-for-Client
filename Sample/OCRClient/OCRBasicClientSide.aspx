@@ -2,12 +2,12 @@
 <html>
 <head>
 <title>Online OCR | Dynamic Web TWAIN SDK | Dynamsoft</title>
-<meta http-equiv="description" content="The sample demonstrates how to scan documents or import local images in browsers with Dynamic Web TWAIN, and then perform OCR at the client side." />
-<script src="Resources/dynamsoft.webtwain.config.js"></script>
-<script src="Resources/dynamsoft.webtwain.initiate.js"></script>
-<script src="Resources/addon/dynamsoft.webtwain.addon.ocr.js"> </script>
-<script src="Resources/addon/dynamsoft.webtwain.addon.pdf.js"></script>
-<link rel="stylesheet" href="Style/ds.demo.css">
+	<meta http-equiv="description" content="The sample demonstrates how to scan documents or import local images in browsers with Dynamic Web TWAIN, and then perform OCR at the client side." />
+	<script type="text/javascript" src="https://www.dynamsoft.com/Demo/DWT/Resources/dynamsoft.webtwain.initiate.js?t=150418"> </script>
+    <script type="text/javascript" src="https://www.dynamsoft.com/Demo/DWT/Resources/dynamsoft.webtwain.config.js"> </script>
+	<script src="https://www.dynamsoft.com/Demo/DWT/Resources/addon/dynamsoft.webtwain.addon.ocr.js"> </script>
+	<script src="https://www.dynamsoft.com/Demo/DWT/Resources/addon/dynamsoft.webtwain.addon.pdf.js"></script>
+	<link rel="stylesheet" href="Style/ds.demo.css">
 </head>
 <body>
 <div id="tipTop"> <span onclick="this.parentElement.style.display='none'" class="close">&times;</span>

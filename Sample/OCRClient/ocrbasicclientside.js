@@ -1,11 +1,8 @@
-Dynamsoft.WebTwainEnv.RegisterEvent('OnWebTwainReady', Dynamsoft_OnReady); // Register OnWebTwainReady event. This event fires as soon as Dynamic Web TWAIN is initialized and ready to be used
-
-
-var DWObject, CurrentPath;
+var DWObject;
 var _iLeft, _iTop, _iRight, _iBottom, bMultipage;
-var CurrentPathName = unescape(location.pathname);
-CurrentPath = CurrentPathName.substring(0, CurrentPathName.lastIndexOf("/") + 1);
-
+var strhttp = "http:";
+var _strPort = 80;
+		
 var OCRLanguages = [
 		{ desc: "English", val: "eng" }
 ];   
@@ -19,7 +16,7 @@ var OCROutputFormat = [
 function downloadPDFR() {
 	Dynamsoft__OnclickCloseInstallEx();
 	DWObject.Addon.PDF.Download(
-		location.protocol + '//' + location.hostname + ':' + location.port + CurrentPath + 'Resources/addon/Pdf.zip',
+		Dynamsoft.WebTwainEnv.ResourcesPath + '/addon/Pdf.zip',
 		function() {/*console.log('PDF dll is installed');*/
 			downloadOCRBasic_btn();
 		},
@@ -50,10 +47,10 @@ function downloadOCRBasic_btn() {
 function downloadOCRBasic() {
 	Dynamsoft__OnclickCloseInstallEx();
 	DWObject.Addon.OCR.DownloadLangData(
-		location.protocol + '//' + location.hostname + ':' + location.port + CurrentPath +"Resources/addon/English.zip", 
+		Dynamsoft.WebTwainEnv.ResourcesPath +"/addon/English.zip", 
 		function(){
 			DWObject.Addon.OCR.Download(
-				location.protocol + '//' + location.hostname + ':' + location.port + CurrentPath + "Resources/addon/OCR.zip", 
+				Dynamsoft.WebTwainEnv.ResourcesPath + "/addon/OCR.zip", 
 				function() {/*console.log('OCR dll is installed');*/},
 				function(errorCode, errorString) {
 					console.log(errorString);
@@ -69,9 +66,20 @@ function downloadOCRBasic() {
 function Dynamsoft_OnReady() {
 	DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer'); // Get the Dynamic Web TWAIN object that is embeded in the div with id 'dwtcontrolContainer'
 	if (DWObject) {
+		DWObject.Width = 505;
+		DWObject.Height = 598;
+		// license good to May 12
+		DWObject.ProductKey = DWObject.ProductKey + ";5A758BA9B01EDFDD80DC5F56826D55833B0797F9DE3D73F4A8D86873E3C1F93AA973B4B0C0DEE9BA78747529BBB143920221A741ADA81DEBD9BCF7304A1BC8A7A157573DF2C731B29603F868FA776D61D0D3CEFE392BAD0586ECF046D5611E00E587BB714DEBBC3911880F05";
 		DWObject.RegisterEvent("OnImageAreaSelected", Dynamsoft_OnImageAreaSelected);
 		DWObject.RegisterEvent("OnImageAreaDeSelected", Dynamsoft_OnImageAreaDeselected);
-		
+		if("https:" == document.location.protocol) 
+			strhttp = "https:";
+		DWObject.IfSSL = Dynamsoft.Lib.detect.ssl;
+		_strPort = location.port == "" ? 80 : location.port;
+		if (Dynamsoft.Lib.detect.ssl == true)
+			_strPort = location.port == "" ? 443 : location.port;
+		DWObject.HTTPPort = _strPort;		
+
 		_iLeft = 0;
 		_iTop = 0;
 		_iRight = 0;
@@ -165,7 +173,9 @@ function LoadImages() {
 			}
 			DWObject.LoadImage(filePath, 
 				function() {
-					console.log('successful');},
+					console.log('successful');
+					Dynamsoft.Lib.detect.hideMask();
+				},
 				function (errorCode, errorString) {
 					alert(errorString);
 					Dynamsoft.Lib.detect.hideMask();
