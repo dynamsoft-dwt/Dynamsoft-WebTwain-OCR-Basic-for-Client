@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Online OCR | Dynamic Web TWAIN SDK | Dynamsoft</title>
+    <meta http-equiv="description"
+        content="The sample demonstrates how to scan documents or import local images in browsers with Dynamic Web TWAIN, and then perform OCR at the client side." />
+    <script src="https://unpkg.com/dwt/dist/dynamsoft.webtwain.min.js"> </script>
+    <script src="https://tst.dynamsoft.com/libs/dwt/15.1/OCRResources/dynamsoft.webtwain.addon.ocr.js"> </script>
+    <link rel="stylesheet" href="Style/ds.demo.css">
+</head>
+
+<body>
+    <div id="tipTop">
+        <span onclick="this.parentElement.style.display='none'" class="close">&times;</span>
+        <p>This demo only works on modern browsers on Windows like Chrome 27+ &amp; Firefox 27+ and Edge &amp; IE 11</p>
+    </div>
+    <div id="main">
+        <div class="container">
+            <div class="ct-lt clearfix">
+                <div id="dwtcontrolContainer"></div>
+            </div>
+            <div class="ct-rt">
+                <div class="content clearfix">
+                    <ul class="lt" style="line-height: 36px;">
+                        <li>
+                            <input type="button" value="Scan" onclick="AcquireImage();" class="btn" />
+                        </li>
+                        <li>Language:</li>
+                        <li>Output Format:</li>
+                        <li>
+                            <input type="button" value="Delete" onclick="RemoveSelected();" class="mt15 btn" />
+                        </li>
+                    </ul>
+                    <ul class="rt" style="line-height: 36px;">
+                        <li>
+                            <input type="button" value="Open a Local Image" onclick="LoadImages();" class="btn w100p" />
+                        </li>
+                        <li>
+                            <select size="1" id="ddlLanguages" class="w100p">
+                            </select>
+                        </li>
+                        <li>
+                            <select size="1" id="ddlOCROutputFormat" class="w100p">
+                            </select>
+                        </li>
+                        <li>
+                            <input type="button" value="OCR" onclick="DoOCR();" class="mt15 btn bgBlue w100p" />
+                        </li>
+                    </ul>
+                    <div id="DWTcontainerBtm">
+                        <p>Result:</p>
+                        <div id="divNoteMessage" ondblclick="this.innerHTML=''"> </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="ocrbasicclientside.js"></script>
+</body>
+
+</html>

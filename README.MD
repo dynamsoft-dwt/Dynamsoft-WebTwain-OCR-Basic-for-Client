@@ -1,23 +1,20 @@
 ﻿# Scan-Documents-and-Do-Client-side-OCR-Basic
 
+## Introduction
+
 This sample demonstrates how to use Dynamic Web TWAIN's OCR Basic add-on to do OCR on the client side (within client-side browsers).
-####
-Dynamsoft Team
-2016-07-13
 
-# Download Source Code
+## How to use the demo
 
-In order to test the demo, you will need to download the complete code <a href="http://www.dynamsoft.com/Samples/DWT/Scan-Documents-and-Do-Client-side-OCR-Basic.zip" target="_blank">here</a>.
+    1. Deploy the application to your server like IIS, Apache, etc.
+    2. Navigate to the page OCRBasicClientSide.html
+    3. Install Dynamic Web TWAIN and Dynamsoft Basic OCR as instructed on the page
+    4. Test the sample
 
-# How to use the demo
+## Live demo
 
-  1. To run the demo, open the sample solution file located at "\Sample\OCRClient\OCRBasicClient_VS2015.sln" using Visual Studio.
-  2. You can create a scan and OCR page based on the sample page.
+https://demo.dynamsoft.com/samples/dwt/Scan-Documents-and-Do-Client-side-OCR-Basic/OCRBasicClientSide.aspx
 
-Should you need any technical help, please write to 
-support@dynamsoft.com.
+## Support
 
-Thanks,
-
-Dynamsoft Team
-
+Should you need any technical help, please write to support[@]dynamsoft.com.
