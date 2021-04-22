@@ -4,23 +4,23 @@ window.onload = function () {
 		ObjString.push('<div class="p15">');
 		ObjString.push("Please note that the sample doesn't work on your current browser, please use a modern browser like Chrome, Firefox, etc. on Windows");
 		ObjString.push('</div>');
-		Dynamsoft.WebTwainEnv.ShowDialog(400, 180, ObjString.join(''));
+		Dynamsoft.DWT.ShowDialog(400, 180, ObjString.join(''));
 		if (document.getElementsByClassName("dynamsoft-dialog-close"))
 			document.getElementsByClassName("dynamsoft-dialog-close")[0].style.display = "none";
 	} else {
-		Dynamsoft.WebTwainEnv.AutoLoad = false;
-		Dynamsoft.WebTwainEnv.Containers = [{ ContainerId: 'dwtcontrolContainer', Width: '100%', Height: '500px' }];
-		Dynamsoft.WebTwainEnv.RegisterEvent('OnWebTwainReady', Dynamsoft_OnReady);
+		Dynamsoft.DWT.AutoLoad = false;
+		Dynamsoft.DWT.Containers = [{ ContainerId: 'dwtcontrolContainer', Width: '100%', Height: '599px' }];
+		Dynamsoft.DWT.RegisterEvent('OnWebTwainReady', Dynamsoft_OnReady);
 		/**
 		 * In order to use the full version, do the following
-		 * 1. Replace Dynamsoft.WebTwainEnv.ProductKey with a full version key
-		 * 2. Change Dynamsoft.WebTwainEnv.ResourcesPath to point to the full version 
+		 * 1. Replace Dynamsoft.DWT.ProductKey with a full version key
+		 * 2. Change Dynamsoft.DWT.ResourcesPath to point to the full version 
 		 *    resource files that you obtain after purchasing a key
 		 */
-		Dynamsoft.WebTwainEnv.ProductKey = "t00901wAAAF+u0oFLI39wRNB580cu3kJSIZtbAcR5aCChp+BFa+RGTGv4L2zaA7Q4fzLjNbZJF55lzg9BdnPG5aZjeJPOJUTwD+r5izfQJtguoC4BNSFofgBZwyta";
-		Dynamsoft.WebTwainEnv.ResourcesPath = 'https://unpkg.com/dwt/dist/';
+		Dynamsoft.DWT.ProductKey = "t00891wAAAEFI4LxiTj1i25NNRIf2JmEOrbXv3jMNfvvxAuMh9vm8+OxP/GoAFy1qDRebTFKcW0OsELrReNW7oVZUcKOYNorvws58twDvIE9Q0wAmJ2XcbmcVK6Q=";
+		Dynamsoft.DWT.ResourcesPath = 'https://unpkg.com/dwt/dist/';
 
-		Dynamsoft.WebTwainEnv.Load();
+		Dynamsoft.DWT.Load();
 	}
 };
 
@@ -55,10 +55,10 @@ var DWObject, ObjString, arySelectedAreas = [], bMultipage, bClearResult = true,
 		{ desc: "Urdu", val: "urd" }
 	],
 	OCROutputFormat = [
-		{ desc: "STRING", val: EnumDWT_OCROutputFormat.OCROF_TEXT },
-		{ desc: "TXT", val: EnumDWT_OCROutputFormat.OCROF_TEXT },
-		{ desc: "Text PDF", val: EnumDWT_OCROutputFormat.OCROF_PDFPLAINTEXT_PDFX },
-		{ desc: "Image-over-text PDF", val: EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT_PDFX }
+		{ desc: "STRING", val: Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_TEXT },
+		{ desc: "TXT", val: Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_TEXT },
+		{ desc: "Text PDF", val: Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_PDFPLAINTEXT_PDFX },
+		{ desc: "Image-over-text PDF", val: Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT_PDFX }
 	];
 
 
@@ -73,7 +73,7 @@ function downloadOCRBasic_btn() {
 			ObjString.push('<p class="tc mt15 mb15"><input type="button" value="Install OCR" onclick="downloadOCRBasic(true);" class="btn lgBtn bgBlue" /><hr></p>');
 			ObjString.push('<i><strong>The installation is a one-time process</strong> <br />It might take some time depending on your network.</i>');
 			ObjString.push('</div>');
-			Dynamsoft.WebTwainEnv.ShowDialog(380, 280, ObjString.join(''));
+			Dynamsoft.DWT.ShowDialog(380, 280, ObjString.join(''));
 		}
 	} else {
 		alert('Your browser is not supported');
@@ -82,8 +82,8 @@ function downloadOCRBasic_btn() {
 
 function downloadOCRBasic(bDownloadDLL) {
 	DCP_DWT_OnClickCloseInstall();
-	var strOCRPath = Dynamsoft.WebTwainEnv.ResourcesPath + "/OCRResources/OCR.zip";
-	strOCRLangPath = Dynamsoft.WebTwainEnv.ResourcesPath + '/OCRResources/OCRBasicLanguages/English.zip';
+	var strOCRPath = Dynamsoft.DWT.ResourcesPath + "/OCRResources/OCR.zip";
+	strOCRLangPath = Dynamsoft.DWT.ResourcesPath + '/OCRResources/OCRBasicLanguages/English.zip';
 	if (bDownloadDLL) {
 		DWObject.Addon.OCR.Download(
 			strOCRPath,
@@ -107,7 +107,7 @@ function downloadOCRBasic(bDownloadDLL) {
 
 function Dynamsoft_OnReady() {
 	var i;
-	DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer'); // Get the Dynamic Web TWAIN object that is embeded in the div with id 'dwtcontrolContainer'
+	DWObject = Dynamsoft.DWT.GetWebTwain('dwtcontrolContainer'); // Get the Dynamic Web TWAIN object that is embeded in the div with id 'dwtcontrolContainer'
 	if (DWObject) {
 		DWObject.Viewer.width = 504;
 		DWObject.Viewer.height = 599;
@@ -131,9 +131,9 @@ function Dynamsoft_OnImageAreaSelected(index, rect) {
 	if (rect.length > 0) {
         var currentRect = rect[rect.length - 1];
 		if (arySelectedAreas.length + 2 > rect.length)
-			arySelectedAreas[rect.length - 1] = [index, currentRect.x, currentRect.y, currentRect.x + currentRect.width, currentRect.y + currentRect.heidht, rect.length];
+			arySelectedAreas[rect.length - 1] = [index, currentRect.x, currentRect.y, currentRect.x + currentRect.width, currentRect.y + currentRect.height, rect.length];
 		else
-			arySelectedAreas.push(index, currentRect.x, currentRect.y, currentRect.x + currentRect.width, currentRect.y + currentRect.heidht, rect.length);
+			arySelectedAreas.push(index, currentRect.x, currentRect.y, currentRect.x + currentRect.width, currentRect.y + currentRect.height, rect.length);
 	}
 }
 
@@ -165,7 +165,7 @@ function LoadImages() {
 	if (DWObject) {
 		if (DWObject.Addon && DWObject.Addon.PDF) {
 			DWObject.Addon.PDF.SetResolution(300);
-			DWObject.Addon.PDF.SetConvertMode(EnumDWT_ConvertMode.CM_RENDERALL);
+			DWObject.Addon.PDF.SetConvertMode(Dynamsoft.DWT.EnumDWT_ConvertMode.CM_RENDERALL);
 		}
 		DWObject.LoadImageEx('', 5,
 			function () {
@@ -259,14 +259,14 @@ function DoOCR() {
 		_ocrResultFileType = "";
 		if (document.getElementById("ddlOCROutputFormat").selectedIndex != 0) {
 			switch (OCROutputFormat[document.getElementById("ddlOCROutputFormat").selectedIndex].val) {
-				case EnumDWT_OCROutputFormat.OCROF_TEXT:
+				case Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_TEXT:
 					saveTye = "Plain Text(*.txt)";
 					_ocrResultFileType = ".txt";
 					break;
-				case EnumDWT_OCROutputFormat.OCROF_PDFPLAINTEXT:
-				case EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT:
-				case EnumDWT_OCROutputFormat.OCROF_PDFPLAINTEXT_PDFX:
-				case EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT_PDFX:
+				case Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_PDFPLAINTEXT:
+				case Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT:
+				case Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_PDFPLAINTEXT_PDFX:
+				case Dynamsoft.DWT.EnumDWT_OCROutputFormat.OCROF_PDFIMAGEOVERTEXT_PDFX:
 					saveTye = "PDF(*.pdf)";
 					_ocrResultFileType = ".pdf";
 					bMultipage = true;
@@ -290,7 +290,7 @@ function DoOCRInner() {
 		var currentLang = OCRLanguages[document.getElementById("ddlLanguages").selectedIndex];
 		DWObject.Addon.OCR.SetLanguage(currentLang.val);
 		DWObject.Addon.OCR.SetOutputFormat(OCROutputFormat[document.getElementById("ddlOCROutputFormat").selectedIndex].val);
-		strOCRLangPath = Dynamsoft.WebTwainEnv.ResourcesPath + '/OCRResources/OCRBasicLanguages/' + currentLang.desc + '.zip';
+		strOCRLangPath = Dynamsoft.DWT.ResourcesPath + '/OCRResources/OCRBasicLanguages/' + currentLang.desc + '.zip';
 		DWObject.Addon.OCR.DownloadLangData(
 			strOCRLangPath,
 			function () {
@@ -305,10 +305,11 @@ function DoOCRInner() {
 				}
 				else if (bMultipage) {
 					var nCount = DWObject.HowManyImagesInBuffer;
-					DWObject.SelectedImagesCount = nCount;
-					for (i = 0; i < nCount; i++) {
-						DWObject.SetSelectedImageIndex(i, i);
-					}
+					var arySelectIndex = [];
+				    for (i = 0; i < nCount; i++) {
+				        arySelectIndex.push(i);
+				    }
+				    DWObject.SelectImages(arySelectIndex);
 					DWObject.Addon.OCR.RecognizeSelectedImages(OnOCRSelectedImagesSuccess, GetErrorInfo);
 				}
 				else {
