@@ -11,13 +11,27 @@ window.onload = function () {
 		Dynamsoft.DWT.AutoLoad = false;
 		Dynamsoft.DWT.Containers = [{ ContainerId: 'dwtcontrolContainer', Width: '100%', Height: '599px' }];
 		Dynamsoft.DWT.RegisterEvent('OnWebTwainReady', Dynamsoft_OnReady);
-		/**
-		 * In order to use the full version, do the following
-		 * 1. Replace Dynamsoft.DWT.ProductKey with a full version key
-		 * 2. Change Dynamsoft.DWT.ResourcesPath to point to the full version 
-		 *    resource files that you obtain after purchasing a key
+		
+	    /** v17.1 LICENSE ALERT - README
+		 * The library requires a license to work, the APIs organizationID and handshakeCode specify how to acquire a license.
+		 * If nothing is specified, a 7-day (public) trial license will be used by default which is the case in this sample.
+		 * Note that network connection is required for this license to work.
 		 */
-		Dynamsoft.DWT.ProductKey = "t00891wAAAEFI4LxiTj1i25NNRIf2JmEOrbXv3jMNfvvxAuMh9vm8+OxP/GoAFy1qDRebTFKcW0OsELrReNW7oVZUcKOYNorvws58twDvIE9Q0wAmJ2XcbmcVK6Q=";
+
+		/* When using your own license, please uncomment the following lines and fill in your own information. */
+		/* For more information, please refer to https://www.dynamsoft.com/license-tracking/docs/about/licensefaq.html?ver=latest#how-to-use-a-trackable-license. */
+
+		// Dynamsoft.DWT.organizationID = "YOUR-ORGANIZATION-ID";
+		// Dynamsoft.DWT.handshakeCode = "A-SPECIFIC-HANDSHAKECODE";
+		// Dynamsoft.DWT.sessionPassword = "PASSWORD-TO-PROTECT-YOUR-LICENSE"; // Important field to protect your license.
+		// Dynamsoft.DWT.licenseServer = ["YOUR-OWN-MAIN-LTS", "YOUR-OWN-STANDBY-LTS"]; // Ignore this line if you are using Dynamsoft-hosting LTS
+
+		/* The API "ProductKey" is an alternative way to license the library, the major difference is that it does not require a network. Contact support@dynamsoft.com for more information. */
+
+		// Dynamsoft.DWT.ProductKey = "YOUR-PRODUCT-KEY";
+
+		/** LICENSE ALERT - THE END */
+		
 		Dynamsoft.DWT.ResourcesPath = 'https://unpkg.com/dwt/dist/';
 
 		Dynamsoft.DWT.Load();
